@@ -11,4 +11,5 @@ abstract final class AppAssets {
   static const String sun = 'assets/images/sun.png';
   static const String eventlyImgPng = 'assets/images/evently_img.png';
   static const String googleImage = 'assets/images/google_img.png';
+  static const String user = "assets/images/user.png";
 }
