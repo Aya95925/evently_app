@@ -6,8 +6,8 @@ import 'package:evently_app/ui/widget/custom_TextField.dart';
 import 'package:evently_app/ui/widget/custom_container_evently.dart';
 import 'package:flutter/material.dart';
 
-class LoginLight extends StatelessWidget {
-  const LoginLight({super.key});
+class Register extends StatelessWidget {
+  const Register({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +21,13 @@ class LoginLight extends StatelessWidget {
             children: [
               Image.asset(AppAssets.eventlyImgPng),
               SizedBox(height: 28),
-              Text('Login to your account', style: AppStyle.blue24SemiBold),
+              Text('Create your account', style: AppStyle.blue24SemiBold),
               SizedBox(height: 24),
+              CustomTextfield(
+                hintText: 'Enter your name',
+                prefixIcon: AppAssets.icUser,
+              ),
+              SizedBox(height: 16),
               CustomTextfield(
                 hintText: 'Enter your email',
                 prefixIcon: AppAssets.icEmail,
@@ -34,20 +39,17 @@ class LoginLight extends StatelessWidget {
                 suffixIcon: AppAssets.eyeSlash,
               ),
               SizedBox(height: 8),
-
-              Text(
-                'Forget Password',
-                textAlign: TextAlign.end,
-                style: AppStyle.blue16Medium.copyWith(
-                  decoration: TextDecoration.underline,
-                  decorationColor: AppColor.primaryBlue,
-                  decorationThickness: 1.5,
-                ),
+              CustomTextfield(
+                hintText: 'Confirm your password',
+                prefixIcon: AppAssets.icPassword,
+                suffixIcon: AppAssets.eyeSlash,
               ),
+              SizedBox(height: 8),
+
               SizedBox(height: 47),
               CustomContainerEvently(
                 onPressed: () {},
-                text: Text('Login', style: AppStyle.white20Medium),
+                text: Text('Sign Up', style: AppStyle.white20Medium),
               ),
               SizedBox(height: 48),
               Row(
@@ -59,10 +61,10 @@ class LoginLight extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(context, Routes.registerRoute());
+                      Navigator.push(context, Routes.loginRoute());
                     },
                     child: Text(
-                      ' Signup',
+                      ' login',
                       style: AppStyle.blue14SemiBold.copyWith(
                         decoration: TextDecoration.underline,
                         decorationColor: AppColor.primaryBlue,
@@ -76,9 +78,14 @@ class LoginLight extends StatelessWidget {
               Center(child: Text('Or', style: AppStyle.blue16Medium)),
               SizedBox(height: 24),
               CustomContainerEvently(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, Routes.loginRoute());
+                },
 
-                text: Text('Login with Google', style: AppStyle.white18Medium),
+                text: Text(
+                  'Sign Up With Google',
+                  style: AppStyle.white18Medium,
+                ),
                 color: AppColor.textPrimaryDarkWhite,
                 image: AppAssets.googleImage,
               ),

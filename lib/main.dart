@@ -1,4 +1,5 @@
 import 'package:evently_app/ui/screen/Login/login_screen.dart';
+import 'package:evently_app/ui/widget/register.dart';
 import 'package:flutter/material.dart';
 
 void main() {
