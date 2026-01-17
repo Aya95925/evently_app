@@ -9,4 +9,6 @@ abstract final class AppAssets {
   static const String icPassword = 'assets/images/ic_password.svg';
   static const String icUser = 'assets/images/ic_user.svg';
   static const String sun = 'assets/images/sun.png';
+  static const String eventlyImgPng = 'assets/images/evently_img.png';
+  static const String googleImage = 'assets/images/google_img.png';
 }
