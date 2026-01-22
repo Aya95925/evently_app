@@ -18,8 +18,13 @@ abstract final class AppStyle {
     fontWeight: FontWeight.w600,
   );
   static const TextStyle white18Medium = TextStyle(
-    color: AppColor.primaryBlue,
+    color: AppColor.textPrimaryDarkWhite,
     fontSize: 18,
+    fontWeight: FontWeight.w500,
+  );
+  static const TextStyle white14Medium = TextStyle(
+    color: AppColor.textPrimaryDarkWhite,
+    fontSize: 14,
     fontWeight: FontWeight.w500,
   );
   static const TextStyle white20Medium = TextStyle(
@@ -41,5 +46,20 @@ abstract final class AppStyle {
     color: AppColor.textSecondarygray,
     fontSize: 12,
     fontWeight: FontWeight.w400,
+  );
+  static const TextStyle white14semiBold = TextStyle(
+    fontSize: 14,
+    color: AppColor.textPrimaryDarkWhite,
+    fontWeight: FontWeight.w600,
+  );
+  static const TextStyle black14Regular = TextStyle(
+    fontSize: 14,
+    color: AppColor.backgroundDarkBlack,
+    fontWeight: FontWeight.w400,
+  );
+  static const TextStyle black20Medium = TextStyle(
+    fontSize: 20,
+    color: AppColor.textPrimaryblack,
+    fontWeight: FontWeight.w500,
   );
 }

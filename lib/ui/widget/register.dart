@@ -19,29 +19,29 @@ class Register extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Image.asset(AppAssets.eventlyImgPng),
+              Image.asset(AppAssets.eventlyImg),
               SizedBox(height: 28),
               Text('Create your account', style: AppStyle.blue24SemiBold),
               SizedBox(height: 24),
               CustomTextfield(
                 hintText: 'Enter your name',
-                prefixIcon: AppAssets.icUser,
+                prefixIcon: AppAssets.icUserSvg,
               ),
               SizedBox(height: 16),
               CustomTextfield(
                 hintText: 'Enter your email',
-                prefixIcon: AppAssets.icEmail,
+                prefixIcon: AppAssets.icEmailSvg,
               ),
               SizedBox(height: 16),
               CustomTextfield(
                 hintText: 'Enter your password',
-                prefixIcon: AppAssets.icPassword,
+                prefixIcon: AppAssets.icPasswordSvg,
                 suffixIcon: AppAssets.eyeSlash,
               ),
               SizedBox(height: 8),
               CustomTextfield(
                 hintText: 'Confirm your password',
-                prefixIcon: AppAssets.icPassword,
+                prefixIcon: AppAssets.icPasswordSvg,
                 suffixIcon: AppAssets.eyeSlash,
               ),
               SizedBox(height: 8),
@@ -87,7 +87,7 @@ class Register extends StatelessWidget {
                   style: AppStyle.white18Medium,
                 ),
                 color: AppColor.textPrimaryDarkWhite,
-                image: AppAssets.googleImage,
+                image: AppAssets.googleImg,
               ),
             ],
           ),

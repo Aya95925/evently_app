@@ -1,5 +1,6 @@
 import 'package:evently_app/ui/util/app_assets.dart';
 import 'package:evently_app/ui/util/app_color.dart';
+import 'package:evently_app/ui/widget/home_body.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -12,7 +13,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int currentIndex = 0;
   final List<Widget> tabs = [
-    Container(child: Text('data')),
+    HomeBody(),
     Container(child: Text('Aya Ahmed')),
     Container(child: Text('aszdcgbhjnmkl')),
   ];
@@ -20,6 +21,12 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColor.primaryBlue,
+        shape: CircleBorder(),
+        onPressed: () {},
+        child: Icon(Icons.add, color: AppColor.textPrimaryDarkWhite),
+      ),
       backgroundColor: AppColor.background,
       body: tabs[currentIndex],
 
