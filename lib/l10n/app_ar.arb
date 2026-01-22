@@ -1,0 +1,14 @@
+{
+  "loginToYourAccount": "سجّل الدخول إلى حسابك",
+  "enterYourEmail": "أدخل بريدك الإلكتروني",
+  "enterYourPassword": "أدخل كلمة المرور",
+  "forgetPassword": "نسيت كلمة المرور؟",
+  "dontHaveAnAccount": "ليس لديك حساب؟ ",
+  "signup": "إنشاء حساب",
+  "or": "أو",
+  "loginWithGoogle": "تسجيل الدخول باستخدام جوجل",
+  "login": "تسجيل الدخول",
+  "youWantIt": "هل تريده؟",
+  "cancel": "إلغاء",
+  "ok": "حسنًا"
+}

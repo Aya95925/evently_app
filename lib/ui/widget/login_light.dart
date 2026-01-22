@@ -1,3 +1,4 @@
+import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:evently_app/ui/util/app_assets.dart';
 import 'package:evently_app/ui/util/app_color.dart';
 import 'package:evently_app/ui/util/app_dialog.dart';
@@ -17,6 +18,7 @@ class LoginLight extends StatefulWidget {
 class _LoginLightState extends State<LoginLight> {
   @override
   Widget build(BuildContext context) {
+    var appLocalizations = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColor.background,
       body: SafeArea(
@@ -27,22 +29,25 @@ class _LoginLightState extends State<LoginLight> {
             children: [
               Image.asset(AppAssets.eventlyImg),
               SizedBox(height: 28),
-              Text('Login to your account', style: AppStyle.blue24SemiBold),
+              Text(
+                appLocalizations.loginToYourAccount,
+                style: AppStyle.blue24SemiBold,
+              ),
               SizedBox(height: 24),
               CustomTextfield(
-                hintText: 'Enter your email',
+                hintText: appLocalizations.enterYourEmail,
                 prefixIcon: AppAssets.icEmailSvg,
               ),
               SizedBox(height: 16),
               CustomTextfield(
-                hintText: 'Enter your password',
+                hintText: appLocalizations.enterYourPassword,
                 prefixIcon: AppAssets.icPasswordSvg,
                 suffixIcon: AppAssets.eyeSlash,
               ),
               SizedBox(height: 8),
 
               Text(
-                'Forget Password',
+                appLocalizations.forgetPassword,
                 textAlign: TextAlign.end,
                 style: AppStyle.blue16Medium.copyWith(
                   decoration: TextDecoration.underline,
@@ -57,7 +62,7 @@ class _LoginLightState extends State<LoginLight> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Don\'t have an account? ',
+                    appLocalizations.dontHaveAnAccount,
                     style: AppStyle.grey16Regular,
                   ),
                   InkWell(
@@ -65,7 +70,7 @@ class _LoginLightState extends State<LoginLight> {
                       Navigator.push(context, Routes.registerRoute);
                     },
                     child: Text(
-                      ' Signup',
+                      appLocalizations.signup,
                       style: AppStyle.blue14SemiBold.copyWith(
                         decoration: TextDecoration.underline,
                         decorationColor: AppColor.primaryBlue,
@@ -81,7 +86,10 @@ class _LoginLightState extends State<LoginLight> {
               CustomContainerEvently(
                 onPressed: () {},
 
-                text: Text('Login with Google', style: AppStyle.blue18Medium),
+                text: Text(
+                  appLocalizations.loginWithGoogle,
+                  style: AppStyle.blue18Medium,
+                ),
                 color: AppColor.textPrimaryDarkWhite,
                 image: AppAssets.googleImg,
               ),
@@ -100,14 +108,17 @@ class _LoginLightState extends State<LoginLight> {
         Navigator.pop(context);
         showMessage(
           context,
-          message: 'you want it..',
+          message: AppLocalizations.of(context)!.youWantIt,
           onPosText: () {},
           onNegaText: () {},
-          posText: 'ok',
-          negText: 'cancel',
+          posText: AppLocalizations.of(context)!.ok,
+          negText: AppLocalizations.of(context)!.cancel,
         );
       },
-      text: Text('Login', style: AppStyle.white20Medium),
+      text: Text(
+        AppLocalizations.of(context)!.login,
+        style: AppStyle.white20Medium,
+      ),
     );
   }
 }
