@@ -62,4 +62,9 @@ abstract final class AppStyle {
     color: AppColor.textPrimaryblack,
     fontWeight: FontWeight.w500,
   );
+  static const TextStyle black16Medium = TextStyle(
+    fontSize: 16,
+    color: AppColor.textPrimaryblack,
+    fontWeight: FontWeight.w500,
+  );
 }

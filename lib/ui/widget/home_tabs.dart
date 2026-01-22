@@ -22,8 +22,10 @@ class _HomeTabsState extends State<HomeTabs> {
       child: TabBar(
         onTap: (value) {
           selectedIndex = value;
+          widget.onChange(widget.categoryDM[value]);
           setState(() {});
         },
+        dividerColor: Colors.transparent,
         tabAlignment: TabAlignment.start,
         isScrollable: true,
         indicatorColor: Colors.transparent,

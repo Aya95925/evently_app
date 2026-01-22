@@ -7,12 +7,16 @@ class CustomTextfield extends StatelessWidget {
   const CustomTextfield({
     super.key,
     required this.hintText,
-    required this.prefixIcon,
+    this.prefixIcon,
     this.suffixIcon,
+    this.minLines = 1,
+    this.maxLines = 10,
   });
   final String hintText;
-  final String prefixIcon;
+  final String? prefixIcon;
   final String? suffixIcon;
+  final int minLines;
+  final int maxLines;
   @override
   Widget build(BuildContext context) {
     final InputBorder border = OutlineInputBorder(
@@ -20,6 +24,9 @@ class CustomTextfield extends StatelessWidget {
       borderSide: BorderSide(color: AppColor.strokeWhite, width: 1),
     );
     return TextFormField(
+      minLines: minLines,
+
+      maxLines: maxLines + 1,
       decoration: InputDecoration(
         filled: true,
         fillColor: AppColor.textPrimaryDarkWhite,
@@ -36,7 +43,7 @@ class CustomTextfield extends StatelessWidget {
 
         prefixIcon: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: SvgPicture.asset(prefixIcon),
+          child: prefixIcon != null ? SvgPicture.asset(prefixIcon!) : null,
         ),
         prefixIconConstraints: const BoxConstraints(
           minWidth: 28,

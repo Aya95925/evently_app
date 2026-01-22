@@ -1,5 +1,6 @@
 import 'package:evently_app/ui/util/app_assets.dart';
 import 'package:evently_app/ui/util/app_color.dart';
+import 'package:evently_app/ui/util/routes.dart';
 import 'package:evently_app/ui/widget/home_body.dart';
 import 'package:flutter/material.dart';
 
@@ -24,12 +25,13 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColor.primaryBlue,
         shape: CircleBorder(),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context, Routes.addEvent);
+        },
         child: Icon(Icons.add, color: AppColor.textPrimaryDarkWhite),
       ),
       backgroundColor: AppColor.background,
       body: tabs[currentIndex],
-
       bottomNavigationBar: Theme(
         data: ThemeData(canvasColor: AppColor.textPrimaryDarkWhite),
         child: buildBottomNavigationBar(),

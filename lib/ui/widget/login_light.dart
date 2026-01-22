@@ -59,7 +59,7 @@ class LoginLight extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(context, Routes.registerRoute());
+                      Navigator.push(context, Routes.registerRoute);
                     },
                     child: Text(
                       ' Signup',

@@ -61,7 +61,7 @@ class Register extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(context, Routes.loginRoute());
+                      Navigator.push(context, Routes.loginRoute);
                     },
                     child: Text(
                       ' login',
@@ -79,7 +79,7 @@ class Register extends StatelessWidget {
               SizedBox(height: 24),
               CustomContainerEvently(
                 onPressed: () {
-                  Navigator.push(context, Routes.loginRoute());
+                  Navigator.push(context, Routes.loginRoute);
                 },
 
                 text: Text(
