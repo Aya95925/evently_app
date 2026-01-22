@@ -1,14 +1,20 @@
 import 'package:evently_app/ui/util/app_assets.dart';
 import 'package:evently_app/ui/util/app_color.dart';
+import 'package:evently_app/ui/util/app_dialog.dart';
 import 'package:evently_app/ui/util/app_style.dart';
 import 'package:evently_app/ui/util/routes.dart';
 import 'package:evently_app/ui/widget/custom_TextField.dart';
 import 'package:evently_app/ui/widget/custom_container_evently.dart';
 import 'package:flutter/material.dart';
 
-class LoginLight extends StatelessWidget {
+class LoginLight extends StatefulWidget {
   const LoginLight({super.key});
 
+  @override
+  State<LoginLight> createState() => _LoginLightState();
+}
+
+class _LoginLightState extends State<LoginLight> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,10 +51,7 @@ class LoginLight extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 47),
-              CustomContainerEvently(
-                onPressed: () {},
-                text: Text('Login', style: AppStyle.white20Medium),
-              ),
+              buildLoginBottom(),
               SizedBox(height: 48),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -78,7 +81,7 @@ class LoginLight extends StatelessWidget {
               CustomContainerEvently(
                 onPressed: () {},
 
-                text: Text('Login with Google', style: AppStyle.white18Medium),
+                text: Text('Login with Google', style: AppStyle.blue18Medium),
                 color: AppColor.textPrimaryDarkWhite,
                 image: AppAssets.googleImg,
               ),
@@ -86,6 +89,25 @@ class LoginLight extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  CustomContainerEvently buildLoginBottom() {
+    return CustomContainerEvently(
+      onPressed: () async {
+        showLoading(context);
+        await Future.delayed(Duration(seconds: 1));
+        Navigator.pop(context);
+        showMessage(
+          context,
+          message: 'you want it..',
+          onPosText: () {},
+          onNegaText: () {},
+          posText: 'ok',
+          negText: 'cancel',
+        );
+      },
+      text: Text('Login', style: AppStyle.white20Medium),
     );
   }
 }
