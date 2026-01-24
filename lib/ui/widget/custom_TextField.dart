@@ -11,12 +11,14 @@ class CustomTextfield extends StatelessWidget {
     this.suffixIcon,
     this.minLines = 1,
     this.maxLines = 10,
+    this.controller,
   });
   final String hintText;
   final String? prefixIcon;
   final String? suffixIcon;
   final int minLines;
   final int maxLines;
+  final TextEditingController? controller;
   @override
   Widget build(BuildContext context) {
     final InputBorder border = OutlineInputBorder(
@@ -24,6 +26,7 @@ class CustomTextfield extends StatelessWidget {
       borderSide: BorderSide(color: AppColor.strokeWhite, width: 1),
     );
     return TextFormField(
+      controller: controller,
       minLines: minLines,
 
       maxLines: maxLines + 1,
@@ -36,10 +39,7 @@ class CustomTextfield extends StatelessWidget {
         enabledBorder: border,
         hintText: hintText,
         hintStyle: AppStyle.grey16Regular,
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: 18,
-          // horizontal: 16,
-        ),
+        contentPadding: const EdgeInsets.symmetric(vertical: 18),
 
         prefixIcon: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),

@@ -6,6 +6,7 @@ import 'package:evently_app/ui/util/app_style.dart';
 import 'package:evently_app/ui/util/routes.dart';
 import 'package:evently_app/ui/widget/custom_TextField.dart';
 import 'package:evently_app/ui/widget/custom_container_evently.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginLight extends StatefulWidget {
@@ -16,6 +17,8 @@ class LoginLight extends StatefulWidget {
 }
 
 class _LoginLightState extends State<LoginLight> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     var appLocalizations = AppLocalizations.of(context)!;
@@ -35,11 +38,13 @@ class _LoginLightState extends State<LoginLight> {
               ),
               SizedBox(height: 24),
               CustomTextfield(
+                controller: emailController,
                 hintText: appLocalizations.enterYourEmail,
                 prefixIcon: AppAssets.icEmailSvg,
               ),
               SizedBox(height: 16),
               CustomTextfield(
+                controller: passwordController,
                 hintText: appLocalizations.enterYourPassword,
                 prefixIcon: AppAssets.icPasswordSvg,
                 suffixIcon: AppAssets.eyeSlash,
@@ -103,17 +108,38 @@ class _LoginLightState extends State<LoginLight> {
   CustomContainerEvently buildLoginBottom() {
     return CustomContainerEvently(
       onPressed: () async {
-        showLoading(context);
-        await Future.delayed(Duration(seconds: 1));
-        Navigator.pop(context);
-        showMessage(
-          context,
-          message: AppLocalizations.of(context)!.youWantIt,
-          onPosText: () {},
-          onNegaText: () {},
-          posText: AppLocalizations.of(context)!.ok,
-          negText: AppLocalizations.of(context)!.cancel,
-        );
+        try {
+          if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Please enter email and password')),
+            );
+            return;
+          }
+          showLoading(context);
+          final credential = await FirebaseAuth.instance
+              .signInWithEmailAndPassword(
+                email: emailController.text,
+                password: passwordController.text,
+              );
+          Navigator.pop(context);
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('User logged in successfully')),
+          );
+          await Future.delayed(const Duration(seconds: 1));
+          Navigator.push(context, Routes.homeScreen);
+        } on FirebaseAuthException catch (e) {
+          Navigator.pop(context);
+          String message = 'Registration failed. Please try again.';
+          if (e.code == 'user-not-found') {
+            message = 'No user found for that email.';
+          } else if (e.code == 'wrong-password') {
+            message = 'Wrong password provided for that user.';
+          }
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(message)));
+        }
       },
       text: Text(
         AppLocalizations.of(context)!.login,
