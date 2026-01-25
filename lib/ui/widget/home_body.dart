@@ -1,3 +1,4 @@
+import 'package:evently_app/model/user_dm.dart';
 import 'package:evently_app/ui/util/app_assets.dart';
 import 'package:evently_app/ui/util/app_color.dart';
 import 'package:evently_app/ui/util/app_constant.dart';
@@ -50,7 +51,7 @@ class HomeBody extends StatelessWidget {
             ),
           ],
         ),
-        Text('John Safwat', style: AppStyle.black20Medium),
+        Text(UserDm.currentUser!.name, style: AppStyle.black20Medium),
       ],
     );
   }

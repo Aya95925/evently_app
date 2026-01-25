@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
+import 'package:evently_app/model/user_dm.dart';
 import 'package:evently_app/ui/util/app_assets.dart';
 import 'package:evently_app/ui/util/app_color.dart';
 import 'package:evently_app/ui/util/app_dialog.dart';
@@ -121,11 +123,13 @@ class _LoginLightState extends State<LoginLight> {
                 email: emailController.text,
                 password: passwordController.text,
               );
+          getUserFromFireStore(credential.user!.uid);
           Navigator.pop(context);
 
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('User logged in successfully')),
           );
+
           await Future.delayed(const Duration(seconds: 1));
           Navigator.push(context, Routes.homeScreen);
         } on FirebaseAuthException catch (e) {
@@ -146,5 +150,20 @@ class _LoginLightState extends State<LoginLight> {
         style: AppStyle.white20Medium,
       ),
     );
+  }
+
+  Future<UserDm> getUserFromFireStore(String uId) async {
+    var userCollection = FirebaseFirestore.instance.collection('users');
+    DocumentSnapshot snapShot = await userCollection.doc(uId).get();
+    Map json = snapShot.data() as Map;
+    UserDm.currentUser = UserDm(
+      id: uId,
+      name: json["name"],
+      password: passwordController.text,
+      email: emailController.text,
+      phoneNumber: json["phone-number"],
+      address: json["address"],
+    );
+    return UserDm.currentUser!;
   }
 }

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evently_app/model/user_dm.dart';
 import 'package:evently_app/ui/util/app_assets.dart';
 import 'package:evently_app/ui/util/app_color.dart';
 import 'package:evently_app/ui/util/app_dialog.dart';
@@ -18,6 +20,10 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,76 +31,94 @@ class _RegisterState extends State<Register> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Image.asset(AppAssets.eventlyImg),
-              SizedBox(height: 28),
-              Text('Create your account', style: AppStyle.blue24SemiBold),
-              SizedBox(height: 24),
-              CustomTextfield(
-                hintText: 'Enter your name',
-                prefixIcon: AppAssets.icUserSvg,
-              ),
-              SizedBox(height: 16),
-              CustomTextfield(
-                hintText: 'Enter your email',
-                controller: emailController,
-                prefixIcon: AppAssets.icEmailSvg,
-              ),
-              SizedBox(height: 16),
-              CustomTextfield(
-                controller: passwordController,
-                hintText: 'Enter your password',
-                prefixIcon: AppAssets.icPasswordSvg,
-                suffixIcon: AppAssets.eyeSlash,
-              ),
-              SizedBox(height: 8),
-              CustomTextfield(
-                hintText: 'Confirm your password',
-                prefixIcon: AppAssets.icPasswordSvg,
-                suffixIcon: AppAssets.eyeSlash,
-              ),
-              SizedBox(height: 8),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Image.asset(AppAssets.eventlyImg),
+                SizedBox(height: 28),
+                Text('Create your account', style: AppStyle.blue24SemiBold),
+                SizedBox(height: 24),
+                CustomTextfield(
+                  controller: nameController,
+                  hintText: 'Enter your name',
+                  prefixIcon: AppAssets.icUserSvg,
+                ),
+                SizedBox(height: 16),
+                CustomTextfield(
+                  controller: addressController,
+                  hintText: 'Enter your address',
+                  prefixIcon: AppAssets.icUserSvg,
+                ),
+                SizedBox(height: 16),
+                CustomTextfield(
+                  controller: phoneNumberController,
+                  hintText: 'Enter your phone number',
+                  prefixIcon: AppAssets.icUserSvg,
+                ),
+                SizedBox(height: 16),
+                CustomTextfield(
+                  hintText: 'Enter your email',
+                  controller: emailController,
+                  prefixIcon: AppAssets.icEmailSvg,
+                ),
+                SizedBox(height: 16),
 
-              SizedBox(height: 47),
-              buildRegisterBottom(),
-              SizedBox(height: 48),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Don\'t have an account? ',
-                    style: AppStyle.grey16Regular,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(context, Routes.loginRoute);
-                    },
-                    child: Text(
-                      ' login',
-                      style: AppStyle.blue14SemiBold.copyWith(
-                        decoration: TextDecoration.underline,
-                        decorationColor: AppColor.primaryBlue,
-                        decorationThickness: 1.5,
+                CustomTextfield(
+                  controller: passwordController,
+                  hintText: 'Enter your password',
+                  prefixIcon: AppAssets.icPasswordSvg,
+                  suffixIcon: AppAssets.eyeSlash,
+                ),
+                SizedBox(height: 8),
+                CustomTextfield(
+                  hintText: 'Confirm your password',
+                  prefixIcon: AppAssets.icPasswordSvg,
+                  suffixIcon: AppAssets.eyeSlash,
+                ),
+                SizedBox(height: 8),
+                SizedBox(height: 47),
+                buildRegisterBottom(),
+                SizedBox(height: 48),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Don\'t have an account? ',
+                      style: AppStyle.grey16Regular,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context, Routes.loginRoute);
+                      },
+                      child: Text(
+                        ' login',
+                        style: AppStyle.blue14SemiBold.copyWith(
+                          decoration: TextDecoration.underline,
+                          decorationColor: AppColor.primaryBlue,
+                          decorationThickness: 1.5,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 32),
-              Center(child: Text('Or', style: AppStyle.blue16Medium)),
-              SizedBox(height: 24),
-              CustomContainerEvently(
-                onPressed: () {
-                  Navigator.push(context, Routes.loginRoute);
-                },
+                  ],
+                ),
+                SizedBox(height: 32),
+                Center(child: Text('Or', style: AppStyle.blue16Medium)),
+                SizedBox(height: 24),
+                CustomContainerEvently(
+                  onPressed: () {
+                    Navigator.push(context, Routes.loginRoute);
+                  },
 
-                text: Text('Sign Up With Google', style: AppStyle.blue18Medium),
-                color: AppColor.textPrimaryDarkWhite,
-                image: AppAssets.googleImg,
-              ),
-            ],
+                  text: Text(
+                    'Sign Up With Google',
+                    style: AppStyle.blue18Medium,
+                  ),
+                  color: AppColor.textPrimaryDarkWhite,
+                  image: AppAssets.googleImg,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -122,6 +146,16 @@ class _RegisterState extends State<Register> {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text('User created successfully')));
+          UserDm.currentUser = UserDm(
+            id: credential.user!.uid,
+            name: nameController.text,
+            password: passwordController.text,
+            email: emailController.text,
+            phoneNumber: phoneNumberController.text,
+            address: addressController.text,
+          );
+          createUserInFireStore(UserDm.currentUser!);
+
           await Future.delayed(const Duration(seconds: 1));
           Navigator.push(context, Routes.homeScreen);
         } on FirebaseAuthException catch (e) {
@@ -147,5 +181,18 @@ class _RegisterState extends State<Register> {
       },
       text: Text('Sign Up', style: AppStyle.white20Medium),
     );
+  }
+
+  Future<void> createUserInFireStore(UserDm userDm) async {
+    var userCollection = FirebaseFirestore.instance.collection('users');
+    var emptyDoc = userCollection.doc(userDm.id);
+    await emptyDoc.set({
+      'id': userDm.id,
+      'name': userDm.name,
+      'password': userDm.password,
+      'email': userDm.email,
+      'phone-number': userDm.phoneNumber,
+      'address': userDm.address,
+    });
   }
 }
