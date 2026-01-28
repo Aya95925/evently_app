@@ -1,14 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evently_app/model/even_dm.dart';
 import 'package:evently_app/model/user_dm.dart';
 import 'package:evently_app/ui/util/app_assets.dart';
 import 'package:evently_app/ui/util/app_color.dart';
 import 'package:evently_app/ui/util/app_constant.dart';
 import 'package:evently_app/ui/util/app_style.dart';
+import 'package:evently_app/ui/widget/event_widget.dart';
 import 'package:evently_app/ui/widget/home_tabs.dart';
 
 import 'package:flutter/material.dart';
 
-class HomeBody extends StatelessWidget {
+class HomeBody extends StatefulWidget {
   const HomeBody({super.key});
+
+  @override
+  State<HomeBody> createState() => _HomeBodyState();
+}
+
+class _HomeBodyState extends State<HomeBody> {
+  List<EventDM> events = [];
+  @override
+  void initState() {
+    super.initState();
+    loadEventsFromFireStore();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,72 +74,26 @@ class HomeBody extends StatelessWidget {
   Widget buildListViewItem() {
     return Expanded(
       child: ListView.builder(
-        itemCount: 10,
+        itemCount: events.length,
         itemBuilder: (context, index) {
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Container(
-              margin: EdgeInsets.only(bottom: 24),
-              height: MediaQuery.of(context).size.height * .24,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(AppAssets.sportLight),
-                  fit: BoxFit.fill,
-                ),
-              ),
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8, left: 8),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColor.strokeWhite,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      padding: EdgeInsets.all(8),
-                      child: Text(
-                        'data',
-                        textAlign: TextAlign.center,
-                        style: AppStyle.blue14SemiBold.copyWith(fontSize: 16),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: AlignmentGeometry.bottomCenter,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: AppColor.strokeWhite,
-                        ),
-                        padding: EdgeInsets.all(10),
-
-                        child: Row(
-                          children: [
-                            Text(
-                              'This is a Birthday Party ',
-                              style: AppStyle.black20Medium.copyWith(
-                                fontSize: 14,
-                              ),
-                            ),
-                            Spacer(),
-                            Image.asset(
-                              AppAssets.heart,
-                              color: Color(0xff0E3A99),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
+          return EventWidget(events: events[index]);
         },
       ),
     );
+  }
+
+  Future<List<EventDM>> getEventFromFireStore() async {
+    var eventCollection = FirebaseFirestore.instance.collection('events');
+    QuerySnapshot snapShot = await eventCollection.get();
+    List<EventDM> events = snapShot.docs.map((doc) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      return EventDM.fromJson(data);
+    }).toList();
+    return events;
+  }
+
+  loadEventsFromFireStore() async {
+    events = await getEventFromFireStore();
+    setState(() {});
   }
 }

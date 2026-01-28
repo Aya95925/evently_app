@@ -92,7 +92,6 @@ class _LoginLightState extends State<LoginLight> {
               SizedBox(height: 24),
               CustomContainerEvently(
                 onPressed: () {},
-
                 text: Text(
                   appLocalizations.loginWithGoogle,
                   style: AppStyle.blue18Medium,
@@ -123,7 +122,7 @@ class _LoginLightState extends State<LoginLight> {
                 email: emailController.text,
                 password: passwordController.text,
               );
-          getUserFromFireStore(credential.user!.uid);
+          await getUserFromFireStore(credential.user!.uid);
           Navigator.pop(context);
 
           ScaffoldMessenger.of(context).showSnackBar(
@@ -155,15 +154,8 @@ class _LoginLightState extends State<LoginLight> {
   Future<UserDm> getUserFromFireStore(String uId) async {
     var userCollection = FirebaseFirestore.instance.collection('users');
     DocumentSnapshot snapShot = await userCollection.doc(uId).get();
-    Map json = snapShot.data() as Map;
-    UserDm.currentUser = UserDm(
-      id: uId,
-      name: json["name"],
-      password: passwordController.text,
-      email: emailController.text,
-      phoneNumber: json["phone-number"],
-      address: json["address"],
-    );
+    Map<String, dynamic> json = snapShot.data() as Map<String, dynamic>;
+    UserDm.currentUser = UserDm.fromJson(json);
     return UserDm.currentUser!;
   }
 }

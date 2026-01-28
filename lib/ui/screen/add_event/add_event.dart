@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently_app/model/even_dm.dart';
 import 'package:evently_app/ui/util/app_color.dart';
 import 'package:evently_app/ui/util/app_constant.dart';
@@ -19,6 +20,8 @@ class _AddEventState extends State<AddEvent> {
   CategoryDM categoryDM = AppConstants.customCategories[0];
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -53,28 +56,54 @@ class _AddEventState extends State<AddEvent> {
               SizedBox(height: 16),
               Text('Title', style: AppStyle.black16Medium),
               SizedBox(height: 8),
-              CustomTextfield(hintText: 'Event Title'),
+              CustomTextfield(
+                hintText: 'Event Title',
+                controller: titleController,
+              ),
               SizedBox(height: 16),
               Text('Description', style: AppStyle.black16Medium),
               SizedBox(height: 8),
-              CustomTextfield(hintText: 'Event Description', minLines: 5),
+              CustomTextfield(
+                hintText: 'Event Description',
+                minLines: 5,
+                controller: descriptionController,
+              ),
               SizedBox(height: 16),
               buildDateRow(context),
               SizedBox(height: 20),
               buildTimeRow(context),
               SizedBox(height: 40),
-              CustomContainerEvently(
-                onPressed: () {
-                  Navigator.push(context, Routes.homeScreen);
-                },
-                text: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 9),
-                  child: Text('Add event', style: AppStyle.white20Medium),
+              createEventToFireStore(
+                EventDM(
+                  categoryDM: categoryDM,
+                  dateTime: selectedDate,
+                  title: titleController.text,
+                  description: descriptionController.text,
+                  id: '',
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  CustomContainerEvently createEventToFireStore(EventDM eventDm) {
+    return CustomContainerEvently(
+      onPressed: () {
+        CollectionReference collection = FirebaseFirestore.instance.collection(
+          'events',
+        );
+        var emptyDoc = collection.doc();
+        eventDm.id = emptyDoc.id;
+        emptyDoc.set(eventDm.toJson());
+
+        Navigator.push(context, Routes.homeScreen);
+      },
+      text: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 9),
+        child: Text('Add event', style: AppStyle.white20Medium),
       ),
     );
   }

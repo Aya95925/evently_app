@@ -17,4 +17,26 @@ class UserDm {
     required this.phoneNumber,
     required this.address,
   });
+
+  static UserDm fromJson(Map<String, dynamic> json) {
+    return UserDm(
+      id: json['id'],
+      name: json['name'],
+      password: json['password'],
+      email: json['email'],
+      phoneNumber: json['phone-number'],
+      address: json['address'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'password': password,
+      'email': email,
+      'phone-number': phoneNumber,
+      'address': address,
+    };
+  }
 }

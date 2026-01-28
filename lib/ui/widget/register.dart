@@ -186,13 +186,6 @@ class _RegisterState extends State<Register> {
   Future<void> createUserInFireStore(UserDm userDm) async {
     var userCollection = FirebaseFirestore.instance.collection('users');
     var emptyDoc = userCollection.doc(userDm.id);
-    await emptyDoc.set({
-      'id': userDm.id,
-      'name': userDm.name,
-      'password': userDm.password,
-      'email': userDm.email,
-      'phone-number': userDm.phoneNumber,
-      'address': userDm.address,
-    });
+    await emptyDoc.set(userDm.toJson());
   }
 }
