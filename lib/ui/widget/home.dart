@@ -2,6 +2,7 @@ import 'package:evently_app/ui/util/app_assets.dart';
 import 'package:evently_app/ui/util/app_color.dart';
 import 'package:evently_app/ui/util/routes.dart';
 import 'package:evently_app/ui/widget/home_body.dart';
+import 'package:evently_app/ui/widget/provile.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -16,7 +17,7 @@ class _HomeState extends State<Home> {
   final List<Widget> tabs = [
     HomeBody(),
     Container(child: Text('Aya Ahmed')),
-    Container(child: Text('aszdcgbhjnmkl')),
+    Provile(),
   ];
 
   @override
@@ -30,7 +31,7 @@ class _HomeState extends State<Home> {
         },
         child: Icon(Icons.add, color: AppColor.textPrimaryDarkWhite),
       ),
-      backgroundColor: AppColor.background,
+      // backgroundColor: AppColor.background,
       body: tabs[currentIndex],
       bottomNavigationBar: Theme(
         data: ThemeData(canvasColor: AppColor.textPrimaryDarkWhite),

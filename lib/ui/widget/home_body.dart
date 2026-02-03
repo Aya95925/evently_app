@@ -19,11 +19,8 @@ class HomeBody extends StatefulWidget {
 
 class _HomeBodyState extends State<HomeBody> {
   List<EventDM> events = [];
-  @override
-  void initState() {
-    super.initState();
-    loadEventsFromFireStore();
-  }
+  var selectedCategory = AppConstants.allCategories[0];
+  List<EventDM> filterEvent = [];
 
   @override
   Widget build(BuildContext context) {
@@ -34,16 +31,55 @@ class _HomeBodyState extends State<HomeBody> {
           children: [
             buildHeader(),
             SizedBox(height: 24),
-            HomeTabs(
-              categoryDM: AppConstants.allCategories,
-              onChange: (category) {},
+            FutureBuilder(
+              future: getEventFromFireStore(),
+              builder: (context, snapShot) {
+                if (snapShot.hasError) {
+                  return Center(
+                    child: Text('Something went wrong ${snapShot.error}'),
+                  );
+                } else if (snapShot.hasData) {
+                  events = snapShot.data!;
+                  filterEvent = events;
+                  filterEvents();
+                  return Expanded(
+                    child: Column(
+                      children: [
+                        buildHomeTap(),
+                        SizedBox(height: 24),
+                        buildListViewItem(),
+                      ],
+                    ),
+                  );
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
             ),
-            SizedBox(height: 24),
-            buildListViewItem(),
           ],
         ),
       ),
     );
+  }
+
+  HomeTabs buildHomeTap() {
+    return HomeTabs(
+      categoryDM: AppConstants.allCategories,
+      onChange: (category) {
+        selectedCategory = category;
+        setState(() {});
+      },
+    );
+  }
+
+  void filterEvents() {
+    if (selectedCategory != AppConstants.all) {
+      filterEvent = events.where((event) {
+        return event.categoryDM.name == selectedCategory.name;
+      }).toList();
+    } else {
+      filterEvent = events;
+    }
   }
 
   Widget buildHeader() {
@@ -74,9 +110,9 @@ class _HomeBodyState extends State<HomeBody> {
   Widget buildListViewItem() {
     return Expanded(
       child: ListView.builder(
-        itemCount: events.length,
+        itemCount: filterEvent.length,
         itemBuilder: (context, index) {
-          return EventWidget(events: events[index]);
+          return EventWidget(events: filterEvent[index]);
         },
       ),
     );
@@ -91,9 +127,11 @@ class _HomeBodyState extends State<HomeBody> {
     }).toList();
     return events;
   }
-
-  loadEventsFromFireStore() async {
-    events = await getEventFromFireStore();
-    setState(() {});
-  }
 }
+
+//   loadEventsFromFireStore() async {
+//     events = await getEventFromFireStore();
+//     filterEvent = events;
+//     setState(() {});
+//   }
+// }

@@ -10,6 +10,7 @@ import 'package:evently_app/ui/widget/custom_TextField.dart';
 import 'package:evently_app/ui/widget/custom_container_evently.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginLight extends StatefulWidget {
   const LoginLight({super.key});
@@ -25,7 +26,6 @@ class _LoginLightState extends State<LoginLight> {
   Widget build(BuildContext context) {
     var appLocalizations = AppLocalizations.of(context)!;
     return Scaffold(
-      backgroundColor: AppColor.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -91,7 +91,9 @@ class _LoginLightState extends State<LoginLight> {
               Center(child: Text('Or', style: AppStyle.blue16Medium)),
               SizedBox(height: 24),
               CustomContainerEvently(
-                onPressed: () {},
+                onPressed: () async {
+                  // await signInWithGoogle();
+                },
                 text: Text(
                   appLocalizations.loginWithGoogle,
                   style: AppStyle.blue18Medium,
@@ -158,4 +160,22 @@ class _LoginLightState extends State<LoginLight> {
     UserDm.currentUser = UserDm.fromJson(json);
     return UserDm.currentUser!;
   }
+
+  // Future<UserCredential> signInWithGoogle() async {
+  //   final GoogleSignInAccount? googleUser = await GoogleSignIn.instance
+  //       .authenticate();
+
+  //   if (googleUser == null) {
+  //     throw Exception('User cancelled Google Sign-In');
+  //   }
+
+  //   final GoogleSignInAuthentication googleAuth =
+  //       await googleUser.authentication;
+
+  //   final OAuthCredential credential = GoogleAuthProvider.credential(
+  //     idToken: googleAuth.idToken,
+  //   );
+
+  //   return await FirebaseAuth.instance.signInWithCredential(credential);
+  // }
 }
