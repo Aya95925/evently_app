@@ -1,8 +1,9 @@
 import 'package:evently_app/model/even_dm.dart';
-import 'package:evently_app/ui/util/app_assets.dart';
+
 import 'package:evently_app/ui/util/app_color.dart';
 import 'package:evently_app/ui/util/app_style.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:evently_app/ui/widget/icon_heart.dart';
+import 'package:flutter/material.dart';
 
 class EventWidget extends StatelessWidget {
   const EventWidget({super.key, required this.events});
@@ -58,7 +59,7 @@ class EventWidget extends StatelessWidget {
                         style: AppStyle.black20Medium.copyWith(fontSize: 14),
                       ),
                       Spacer(),
-                      Image.asset(AppAssets.heart, color: Color(0xff0E3A99)),
+                      IconHeart(events: events),
                     ],
                   ),
                 ),

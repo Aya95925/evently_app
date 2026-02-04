@@ -6,7 +6,7 @@ class UserDm {
   final String phoneNumber;
   final String address;
   final String email;
-  final List? isFavourite;
+  List<String> isFavourite;
 
   UserDm({
     required this.id,
@@ -19,6 +19,7 @@ class UserDm {
   });
 
   static UserDm fromJson(Map<String, dynamic> json) {
+    List<dynamic> favouriteFromJson = json['isFavourite'];
     return UserDm(
       id: json['id'],
       name: json['name'],
@@ -26,6 +27,7 @@ class UserDm {
       email: json['email'],
       phoneNumber: json['phone-number'],
       address: json['address'],
+      isFavourite: favouriteFromJson.cast<String>(),
     );
   }
 
@@ -37,6 +39,7 @@ class UserDm {
       'email': email,
       'phone-number': phoneNumber,
       'address': address,
+      'isFavourite': isFavourite,
     };
   }
 }
