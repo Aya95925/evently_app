@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evently_app/firebase_utils/fireBase_utils.dart';
 import 'package:evently_app/model/even_dm.dart';
 import 'package:evently_app/model/user_dm.dart';
 import 'package:evently_app/ui/util/app_assets.dart';
@@ -116,16 +116,6 @@ class _HomeBodyState extends State<HomeBody> {
         },
       ),
     );
-  }
-
-  Future<List<EventDM>> getEventFromFireStore() async {
-    var eventCollection = FirebaseFirestore.instance.collection('events');
-    QuerySnapshot snapShot = await eventCollection.get();
-    List<EventDM> events = snapShot.docs.map((doc) {
-      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-      return EventDM.fromJson(data);
-    }).toList();
-    return events;
   }
 }
 

@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evently_app/firebase_utils/fireBase_utils.dart';
 import 'package:evently_app/model/user_dm.dart';
 import 'package:evently_app/ui/util/app_assets.dart';
 import 'package:evently_app/ui/util/app_color.dart';
@@ -180,11 +180,5 @@ class _RegisterState extends State<Register> {
       },
       text: Text('Sign Up', style: AppStyle.white20Medium),
     );
-  }
-
-  Future<void> createUserInFireStore(UserDm userDm) async {
-    var userCollection = FirebaseFirestore.instance.collection('users');
-    var emptyDoc = userCollection.doc(userDm.id);
-    await emptyDoc.set(userDm.toJson());
   }
 }

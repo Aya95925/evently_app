@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evently_app/firebase_utils/fireBase_utils.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
-import 'package:evently_app/model/user_dm.dart';
+
 import 'package:evently_app/ui/util/app_assets.dart';
 import 'package:evently_app/ui/util/app_color.dart';
 import 'package:evently_app/ui/util/app_dialog.dart';
@@ -153,29 +153,11 @@ class _LoginLightState extends State<LoginLight> {
     );
   }
 
-  Future<UserDm> getUserFromFireStore(String uId) async {
-    var userCollection = FirebaseFirestore.instance.collection('users');
-    DocumentSnapshot snapShot = await userCollection.doc(uId).get();
-    Map<String, dynamic> json = snapShot.data() as Map<String, dynamic>;
-    UserDm.currentUser = UserDm.fromJson(json);
-    return UserDm.currentUser!;
-  }
-
-  // Future<UserCredential> signInWithGoogle() async {
-  //   final GoogleSignInAccount? googleUser = await GoogleSignIn.instance
-  //       .authenticate();
-
-  //   if (googleUser == null) {
-  //     throw Exception('User cancelled Google Sign-In');
-  //   }
-
-  //   final GoogleSignInAuthentication googleAuth =
-  //       await googleUser.authentication;
-
-  //   final OAuthCredential credential = GoogleAuthProvider.credential(
-  //     idToken: googleAuth.idToken,
-  //   );
-
-  //   return await FirebaseAuth.instance.signInWithCredential(credential);
+  // Future<UserDm> getUserFromFireStore(String uId) async {
+  //   var userCollection = FirebaseFirestore.instance.collection('users');
+  //   DocumentSnapshot snapShot = await userCollection.doc(uId).get();
+  //   Map<String, dynamic> json = snapShot.data() as Map<String, dynamic>;
+  //   UserDm.currentUser = UserDm.fromJson(json);
+  //   return UserDm.currentUser!;
   // }
 }
