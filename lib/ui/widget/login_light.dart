@@ -10,7 +10,6 @@ import 'package:evently_app/ui/widget/custom_TextField.dart';
 import 'package:evently_app/ui/widget/custom_container_evently.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginLight extends StatefulWidget {
   const LoginLight({super.key});
@@ -136,6 +135,7 @@ class _LoginLightState extends State<LoginLight> {
         } on FirebaseAuthException catch (e) {
           Navigator.pop(context);
           String message = 'Registration failed. Please try again.';
+          print(e.code.toString());
           if (e.code == 'user-not-found') {
             message = 'No user found for that email.';
           } else if (e.code == 'wrong-password') {

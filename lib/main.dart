@@ -2,7 +2,7 @@ import 'package:evently_app/firebase_options.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:evently_app/provider/language_provider.dart';
 import 'package:evently_app/provider/theme_provider.dart';
-import 'package:evently_app/ui/screen/Login/login_screen.dart';
+import 'package:evently_app/ui/screen/splash/splash_screen.dart';
 import 'package:evently_app/ui/util/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +49,7 @@ class EventlyApp extends StatelessWidget {
       darkTheme: AppTheme.darkMode,
       themeMode: themeProvider.themeMode,
 
-      home: const LoginScreen(),
+      home: SplashScreen(),
     );
   }
 }

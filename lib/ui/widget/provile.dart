@@ -1,9 +1,10 @@
+import 'package:evently_app/model/user_dm.dart';
 import 'package:evently_app/provider/language_provider.dart';
 import 'package:evently_app/provider/theme_provider.dart';
+import 'package:evently_app/ui/util/app_assets.dart';
 import 'package:evently_app/ui/util/app_color.dart';
 import 'package:evently_app/ui/util/app_style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class Provile extends StatefulWidget {
@@ -20,12 +21,36 @@ class _ProvileState extends State<Provile> {
     languageProvider = Provider.of<LanguageProvider>(context);
     return Center(
       child: SafeArea(
-        child: Column(
-          children: [
-            buildThemeContainer(),
-            SizedBox(height: 16),
-            buildLanguageContainer(),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+          child: Column(
+            children: [
+              CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: 80,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(80),
+                  child: Image.asset(AppAssets.image11logo),
+                ),
+              ),
+              SizedBox(height: 12),
+              Text(
+                UserDm.currentUser!.name,
+                style: AppStyle.black14Regular.copyWith(fontSize: 20),
+              ),
+              SizedBox(height: 5),
+              Text(
+                UserDm.currentUser!.email,
+                style: AppStyle.black14Regular.copyWith(fontSize: 16),
+              ),
+
+              buildThemeContainer(),
+              SizedBox(height: 16),
+              buildLanguageContainer(),
+              SizedBox(height: 16),
+              buildLogOut(),
+            ],
+          ),
         ),
       ),
     );
@@ -37,9 +62,10 @@ class _ProvileState extends State<Provile> {
 
   Widget buildThemeContainer() {
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         color: AppColor.strokeWhite,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(24),
       ),
       child: Row(
         children: [
@@ -61,9 +87,10 @@ class _ProvileState extends State<Provile> {
 
   Widget buildLanguageContainer() {
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         color: AppColor.strokeWhite,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(24),
       ),
       child: Row(
         children: [
@@ -77,6 +104,31 @@ class _ProvileState extends State<Provile> {
             },
           ),
         ],
+      ),
+    );
+  }
+
+  Widget buildLogOut() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      decoration: BoxDecoration(
+        color: AppColor.strokeWhite,
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Row(
+          children: [
+            Text('Log Out', style: AppStyle.black16Medium),
+            Spacer(),
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Icon(Icons.logout, color: AppColor.errorRed),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,4 +1,4 @@
-class AppAssets {
+abstract final class AppAssets {
   static const String sportDark = "assets/images/Sport.png";
   static const String sportLight = "assets/images/Sport-1.png";
   static const String meetingDark = "assets/images/Meeting.png";
@@ -33,4 +33,10 @@ class AppAssets {
   static const String icUserSvg = "assets/images/ic_user.svg";
   static const String sun = "assets/images/sun.png";
   static const String user = "assets/images/user.png";
+  static const String routeLogo = "assets/images/Route logo.png";
+  static const String hotTrending = "assets/images/hot-trending.png";
+  static const String image11logo = "assets/images/image 11.png";
+  static const String socialMedia = 'assets/images/social-media.png';
+  static const String beingCreative = 'assets/images/being-creative.png';
+  static const String manegerDesk = 'assets/images/manager-desk.png';
 }
