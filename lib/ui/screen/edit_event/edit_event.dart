@@ -10,19 +10,30 @@ import 'package:evently_app/ui/widget/custom_event_icon_container.dart';
 import 'package:evently_app/ui/widget/home_tabs.dart';
 import 'package:flutter/material.dart';
 
-class AddEvent extends StatefulWidget {
-  const AddEvent({super.key});
+class EditEvent extends StatefulWidget {
+  const EditEvent({super.key, required this.eventDM});
+  final EventDM eventDM;
 
   @override
-  State<AddEvent> createState() => _AddEventState();
+  State<EditEvent> createState() => _EditEventState();
 }
 
-class _AddEventState extends State<AddEvent> {
-  CategoryDM categoryDM = AppConstants.customCategories[0];
-  DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime = TimeOfDay.now();
+class _EditEventState extends State<EditEvent> {
+  late CategoryDM categoryDM;
+
+  late DateTime selectedDate;
+  late TimeOfDay selectedTime;
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    categoryDM = widget.eventDM.categoryDM;
+    selectedDate = widget.eventDM.dateTime;
+    selectedTime = TimeOfDay.fromDateTime(widget.eventDM.dateTime);
+    titleController.text = widget.eventDM.title;
+    descriptionController.text = widget.eventDM.description;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +46,7 @@ class _AddEventState extends State<AddEvent> {
             Navigator.pop(context);
           },
         ),
-        title: Text('Add event', style: AppStyle.black20Medium),
+        title: Text('Edit event', style: AppStyle.black20Medium),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -93,13 +104,13 @@ class _AddEventState extends State<AddEvent> {
 
               const SizedBox(height: 40),
 
-              createEventToFireStore(
+              updateEventToFireStore(
                 EventDM(
                   categoryDM: categoryDM,
                   dateTime: selectedDate,
                   title: titleController.text,
                   description: descriptionController.text,
-                  id: '',
+                  id: widget.eventDM.id,
                 ),
                 context,
               ),

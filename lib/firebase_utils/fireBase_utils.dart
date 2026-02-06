@@ -1,6 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently_app/model/even_dm.dart';
 import 'package:evently_app/model/user_dm.dart';
+import 'package:evently_app/ui/util/app_color.dart';
+import 'package:evently_app/ui/util/app_style.dart';
+import 'package:evently_app/ui/util/routes.dart';
+import 'package:evently_app/ui/widget/custom_container_evently.dart';
+import 'package:flutter/material.dart';
 
 void addFavouriteEventToFireStore(String eventId, UserDm user) {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
@@ -42,4 +47,54 @@ Future<List<EventDM>> getEventFromFireStore() async {
     return EventDM.fromJson(data);
   }).toList();
   return events;
+}
+
+CustomContainerEvently createEventToFireStore(
+  EventDM eventDm,
+  BuildContext context,
+) {
+  return CustomContainerEvently(
+    onPressed: () {
+      CollectionReference collection = FirebaseFirestore.instance.collection(
+        'events',
+      );
+      var emptyDoc = collection.doc();
+      eventDm.id = emptyDoc.id;
+      emptyDoc.set(eventDm.toJson());
+
+      Navigator.push(context, Routes.homeScreen);
+    },
+    text: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 9),
+      child: Text('Add event', style: AppStyle.white20Medium),
+    ),
+  );
+}
+
+CustomContainerEvently updateEventToFireStore(
+  EventDM eventDm,
+  BuildContext context,
+) {
+  return CustomContainerEvently(
+    onPressed: () async {
+      try {
+        CollectionReference collection = FirebaseFirestore.instance.collection(
+          'events',
+        );
+        await collection.doc(eventDm.id).update(eventDm.toJson());
+        Navigator.push(context, Routes.homeScreen);
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("There was an error"),
+            backgroundColor: AppColor.textPrimaryblack,
+          ),
+        );
+      }
+    },
+    text: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 9),
+      child: Text('Update event', style: AppStyle.white20Medium),
+    ),
+  );
 }
