@@ -5,7 +5,9 @@ import 'package:evently_app/ui/util/app_color.dart';
 import 'package:evently_app/ui/util/app_style.dart';
 import 'package:evently_app/ui/util/routes.dart';
 import 'package:evently_app/ui/widget/custom_container_evently.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 void addFavouriteEventToFireStore(String eventId, UserDm user) {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
@@ -38,7 +40,6 @@ Future<void> createUserInFireStore(UserDm userDm) async {
   var emptyDoc = userCollection.doc(userDm.id);
   await emptyDoc.set(userDm.toJson());
 }
-
 Future<List<EventDM>> getEventFromFireStore() async {
   var eventCollection = FirebaseFirestore.instance.collection('events');
   QuerySnapshot snapShot = await eventCollection.get();
@@ -97,4 +98,32 @@ CustomContainerEvently updateEventToFireStore(
       child: Text('Update event', style: AppStyle.white20Medium),
     ),
   );
+}
+Future<UserCredential?> loginWithGoogle() async {
+  try {
+    final googleUser = await GoogleSignIn().signIn();
+
+    if (googleUser == null) {
+      debugPrint('User cancelled Google Sign-In');
+      return null;
+    }
+
+    final googleAuth = await googleUser.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    final userCredential = await FirebaseAuth.instance
+        .signInWithCredential(credential);
+
+    debugPrint('Login success: ${userCredential.user?.email}');
+    return userCredential;
+
+  } catch (e) {
+    debugPrint('Google Sign-In error: $e');
+   
+    return null;
+  }
 }

@@ -102,7 +102,7 @@ class _HomeBodyState extends State<HomeBody> {
             ),
           ],
         ),
-        Text(UserDm.currentUser!.name, style: AppStyle.black20Medium),
+        Text('Aya Ahmed', style: AppStyle.black20Medium),
       ],
     );
   }
@@ -119,9 +119,5 @@ class _HomeBodyState extends State<HomeBody> {
   }
 }
 
-//   loadEventsFromFireStore() async {
-//     events = await getEventFromFireStore();
-//     filterEvent = events;
-//     setState(() {});
-//   }
-// }
+
+

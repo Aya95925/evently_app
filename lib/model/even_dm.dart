@@ -17,15 +17,15 @@ class EventDM {
     required this.id,
     // required this.isFavorite,
   });
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-      'description': description,
-      'category': categoryDM.toJson(),
-      'dateTime': dateTime,
-    };
-  }
+ Map<String, dynamic> toJson() {
+  return {
+    'id': id,
+    'title': title,
+    'description': description,
+    'category': categoryDM.toJson(),
+    'dateTime': Timestamp.fromDate(dateTime),
+  };
+}
 
   static EventDM fromJson(Map<String, dynamic> json) {
     return EventDM(

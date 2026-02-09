@@ -15,22 +15,25 @@ class IconHeart extends StatefulWidget {
 class _IconHeartState extends State<IconHeart> {
   @override
   Widget build(BuildContext context) {
+    final user = UserDm.currentUser;
+
+    if (user == null) {
+      return const Icon(Icons.favorite_border, color: AppColor.primaryBlue);
+    }
+
+    final isFav = user.isFavourite.contains(widget.events.id);
+
     return InkWell(
       onTap: () {
-        if (UserDm.currentUser!.isFavourite.contains(widget.events.id)) {
-          removeFavouriteEventFromFireStore(
-            widget.events.id,
-            UserDm.currentUser!,
-          );
+        if (isFav) {
+          removeFavouriteEventFromFireStore(widget.events.id, user);
         } else {
-          addFavouriteEventToFireStore(widget.events.id, UserDm.currentUser!);
+          addFavouriteEventToFireStore(widget.events.id, user);
         }
         setState(() {});
       },
       child: Icon(
-        UserDm.currentUser!.isFavourite.contains(widget.events.id)
-            ? Icons.favorite
-            : Icons.favorite_border,
+        isFav ? Icons.favorite : Icons.favorite_border,
         color: AppColor.primaryBlue,
       ),
     );

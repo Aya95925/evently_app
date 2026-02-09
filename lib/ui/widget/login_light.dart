@@ -1,6 +1,5 @@
 import 'package:evently_app/firebase_utils/fireBase_utils.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
-
 import 'package:evently_app/ui/util/app_assets.dart';
 import 'package:evently_app/ui/util/app_color.dart';
 import 'package:evently_app/ui/util/app_dialog.dart';
@@ -21,6 +20,7 @@ class LoginLight extends StatefulWidget {
 class _LoginLightState extends State<LoginLight> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     var appLocalizations = AppLocalizations.of(context)!;
@@ -51,7 +51,6 @@ class _LoginLightState extends State<LoginLight> {
                 suffixIcon: AppAssets.eyeSlash,
               ),
               SizedBox(height: 8),
-
               Text(
                 appLocalizations.forgetPassword,
                 textAlign: TextAlign.end,
@@ -91,7 +90,15 @@ class _LoginLightState extends State<LoginLight> {
               SizedBox(height: 24),
               CustomContainerEvently(
                 onPressed: () async {
-                  // await signInWithGoogle();
+                  final result = await loginWithGoogle();
+
+                  if (result != null) {
+                    Navigator.push(context, Routes.homeScreen);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Google Sign-In failed')),
+                    );
+                  }
                 },
                 text: Text(
                   appLocalizations.loginWithGoogle,
@@ -135,7 +142,6 @@ class _LoginLightState extends State<LoginLight> {
         } on FirebaseAuthException catch (e) {
           Navigator.pop(context);
           String message = 'Registration failed. Please try again.';
-          print(e.code.toString());
           if (e.code == 'user-not-found') {
             message = 'No user found for that email.';
           } else if (e.code == 'wrong-password') {
@@ -152,12 +158,4 @@ class _LoginLightState extends State<LoginLight> {
       ),
     );
   }
-
-  // Future<UserDm> getUserFromFireStore(String uId) async {
-  //   var userCollection = FirebaseFirestore.instance.collection('users');
-  //   DocumentSnapshot snapShot = await userCollection.doc(uId).get();
-  //   Map<String, dynamic> json = snapShot.data() as Map<String, dynamic>;
-  //   UserDm.currentUser = UserDm.fromJson(json);
-  //   return UserDm.currentUser!;
-  // }
 }
